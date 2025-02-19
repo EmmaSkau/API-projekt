@@ -16,7 +16,7 @@ async function hentCitat() {
         let data = await res.json();
 
         if (res.ok) {
-            output.textContent = `Bruger: ${data.bruger} - Citat: ${data.citat}`;
+            output.textContent = `Hej ${data.bruger}! Her er dit Citat: ${data.citat}`;
         } else {
             output.textContent = `Fejl: ${data.error}`;
         }
