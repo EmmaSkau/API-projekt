@@ -1,13 +1,22 @@
 async function hentCitat() {
     const apiKey = document.getElementById("apiKey").value;
-    const output = document.getElementById("output");
+    const outputDiv = document.getElementById("output");
+    const outputTitle = document.getElementById("output-title");
+    const outputText = document.getElementById("output-text");
 
     if (!apiKey) {
-        output.textContent = "Indtast en API-nøgle!";
+        outputDiv.style.display = "block";
+        outputTitle.textContent = "Fejl!";
+        outputText.textContent = "Indtast en API-nøgle!";
         return;
     }
 
-    output.textContent = "Henter citat..."; // Loader-effekt
+    // Ryd API-nøgle inputfeltet
+    document.getElementById("apiKey").value = "";
+
+    outputDiv.style.display = "block";
+    outputTitle.textContent = "Henter citat..."; // Loader-effekt
+    outputText.textContent = "";
 
     try {
         let res = await fetch("http://localhost:3000/api/citat", {
@@ -18,11 +27,14 @@ async function hentCitat() {
         let data = await res.json();
 
         if (res.ok) {
-            output.textContent = `Hej ${data.bruger}! Her er dit citat: "${data.citat}"`;
+            outputTitle.textContent = `Hej ${data.bruger}!`;
+            outputText.textContent = `"${data.citat}"`;
         } else {
-            output.textContent = `Fejl ${res.status}: ${data.error}`;
+            outputTitle.textContent = "Fejl!";
+            outputText.textContent = `Fejl ${res.status}: ${data.error}`;
         }
     } catch (error) {
-        output.textContent = `Netværksfejl: Kunne ikke forbinde til API!`;
+        outputTitle.textContent = "Fejl!";
+        outputText.textContent = "Kunne ikke forbinde til API!";
     }
 }

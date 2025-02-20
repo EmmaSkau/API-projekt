@@ -31,10 +31,15 @@ db.prepare(`
 `).run();
 
 // **Middleware til API-nøgle validering**
+const fs = require('fs'); // Importér fs for at skrive til logfil
+
 const apiKeyAuth = (req, res, next) => {
     const apiKey = req.headers['x-api-key'];
+    const logFile = 'unauthorized_attempts.log';
 
     if (!apiKey) {
+        const logEntry = `[${new Date().toISOString()}] - Uautoriseret adgang: Ingen API-nøgle indsendt\n`;
+        fs.appendFileSync(logFile, logEntry);
         return res.status(401).json({ error: "API-nøgle mangler" });
     }
 
@@ -47,8 +52,13 @@ const apiKeyAuth = (req, res, next) => {
         }
     }
 
+    // Log mislykket adgang
+    const logEntry = `[${new Date().toISOString()}] - Uautoriseret adgang: Ugyldig API-nøgle "${apiKey}"\n`;
+    fs.appendFileSync(logFile, logEntry);
+
     return res.status(403).json({ error: "Ugyldig API-nøgle" });
 };
+
 
 // **API-endpoint til at hente citater**
 app.get('/api/citat', apiKeyAuth, (req, res) => {
