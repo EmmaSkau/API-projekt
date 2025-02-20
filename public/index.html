@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,14 +9,23 @@
     <script defer src="script.js"></script>
     <title>Projekt 1 - Opgave 4</title>
 </head>
-<body>
-    <h1>API Test – Hent citater</h1>
-    <section id="api">
-        <label for="apiKey">Indsæt din API-nøgle:</label>
-        <input type="text" id="apiKey" placeholder="Indtast din API-nøgle">
-        <button onclick="hentCitat()">Hent citat</button>
-    </section>
 
-    <p id="output"></p>
+<body>
+    <main>
+        <h1>Hent dine citater her!</h1>
+        <p>Brug din api nøgle her, for at finde dit citat.</p>
+        <section id="api">
+            <label for="apiKey">Indsæt din API-nøgle:</label>
+            <input type="text" id="apiKey" placeholder="Indtast din API-nøgle">
+            <button onclick="hentCitat()">Hent citat</button>
+        </section>
+
+        <p id="output"></p>
+    </main>
+
+    <footer>
+        <p id="footerp">@2025 Made by Emma Skau Jensen for educational purposes</p>
+    </footer>
 </body>
+
 </html>
