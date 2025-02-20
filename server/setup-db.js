@@ -10,27 +10,8 @@ const port = 3000;
 app.use(cors());
 app.use(express.json());
 
-// Opret forbindelse til databasen
+// Opretter forbindelse til databasen
 const db = new sqlite3('users.db');
-
-// **Registrér en ny bruger og generér API-nøgle**
-app.post('/api/register', async (req, res) => {
-    const { username } = req.body;
-
-    if (!username) {
-        return res.status(400).json({ error: "Brugernavn påkrævet" });
-    }
-
-    // Generér API-nøgle
-    const apiKey = bcrypt.hashSync(username + Date.now(), 10);
-
-    try {
-        db.prepare('INSERT INTO users (username, api_key) VALUES (?, ?)').run(username, apiKey);
-        res.json({ message: "Bruger oprettet!", api_key: apiKey });
-    } catch (err) {
-        res.status(500).json({ error: "Bruger kunne ikke oprettes, prøv et andet brugernavn." });
-    }
-});
 
 // **Middleware til API-nøgle validering**
 const apiKeyAuth = (req, res, next) => {
