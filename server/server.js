@@ -1,5 +1,5 @@
 const express = require('express');
-const cors = require('cors');
+const cors = require('cors'); //gør det muligt at kalde API’et fra en browse
 const bcrypt = require('bcryptjs');
 const sqlite3 = require('better-sqlite3');
 
