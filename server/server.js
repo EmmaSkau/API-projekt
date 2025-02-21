@@ -3,12 +3,12 @@ const cors = require('cors'); //gør det muligt at kalde API’et fra en browse
 const bcrypt = require('bcryptjs');
 const sqlite3 = require('better-sqlite3');
 
-const app = express();
+const app = express(); 
 const port = 3000;
 
 // Tillad CORS og JSON body parsing
-app.use(cors());
-app.use(express.json());
+app.use(cors()); // Tillader API'et at blive tilgået fra browseren
+app.use(express.json()); //Tillader API'et at modtage og sende data i JSON-format
 
 // Opret forbindelse til SQLite database
 const db = new sqlite3('users.db');
@@ -34,10 +34,10 @@ db.prepare(`
 const fs = require('fs'); // Importér fs for at skrive til logfil
 
 const apiKeyAuth = (req, res, next) => {
-    const apiKey = req.headers['x-api-key'];
-    const logFile = 'unauthorized_attempts.log';
+    const apiKey = req.headers['x-api-key']; //læser api fra header
+    const logFile = 'unauthorized_attempts.log'; 
 
-    if (!apiKey) {
+    if (!apiKey) { // Hvis api-nøgle ikke godkendes
         const logEntry = `[${new Date().toISOString()}] - Uautoriseret adgang: Ingen API-nøgle indsendt\n`;
         fs.appendFileSync(logFile, logEntry);
         return res.status(401).json({ error: "API-nøgle mangler" });
@@ -45,7 +45,7 @@ const apiKeyAuth = (req, res, next) => {
 
     const users = db.prepare('SELECT username, api_key FROM users').all();
 
-    for (let u of users) {
+    for (let u of users) { // Valider api-nøgle mod databsen
         if (bcrypt.compareSync(apiKey, u.api_key)) {
             req.user = u.username;
             return next();

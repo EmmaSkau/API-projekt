@@ -4,7 +4,7 @@ async function hentCitat() {
     const outputTitle = document.getElementById("output-title");
     const outputText = document.getElementById("output-text");
 
-    if (!apiKey) {
+    if (!apiKey) { // Hvis brugeren ikke har indtastet en API-nøgle
         outputDiv.style.display = "block";
         outputTitle.textContent = "Fejl!";
         outputText.textContent = "Indtast en API-nøgle!";
@@ -19,12 +19,12 @@ async function hentCitat() {
     outputText.textContent = "";
 
     try {
-        let res = await fetch("http://localhost:3000/api/citat", {
-            method: "GET",
-            headers: { "x-api-key": apiKey }
+        let res = await fetch("http://localhost:3000/api/citat", { // sender get anmodning
+            method: "GET", 
+            headers: { "x-api-key": apiKey } // Bruger api-nøgle som header
         });
 
-        let data = await res.json();
+        let data = await res.json(); 
 
         if (res.ok) {
             outputTitle.textContent = `Hej ${data.bruger}!`;
